@@ -1,0 +1,27 @@
+{
+  "apps":[
+    {
+      "name"          : "node-red",
+      "script"        : "/root/.nvm/versions/node/v10.16.3/bin/node-red",
+      
+      "env": {
+        "PORT"              : 1880,
+        
+        "jinou_location"    : "Singapore",
+        "jinou_l_group"     : "Bedroom",
+        "jinou_l_address"   : "cd:d7:51:15:0f:7e",
+        "jinou_r_group"     : "Lounge",
+        "jinou_r_address"   : "cb:d0:c5:0c:27:bd",
+        "jinou_c_group"     : "Weather",
+        "jinou_temp_max"    : 35,
+        "jinou_temp_min"    : -5,
+        "jinou_wind_units"  : "mph",
+        "spryng_token"      : ""
+           
+      },
+      
+      "log_date_format" : "DD-MM HH:mm:ss",
+      "exec_mode"       : "fork"
+    }
+    ]
+}

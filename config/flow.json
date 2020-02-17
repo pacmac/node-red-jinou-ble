@@ -1,0 +1,455 @@
+[
+    {
+        "id": "b148fd36.4b73f",
+        "type": "tab",
+        "label": "Tests",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "f6197666.57a978",
+        "type": "inject",
+        "z": "b148fd36.4b73f",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 130,
+        "y": 280,
+        "wires": [
+            [
+                "7bddf253.14f6bc"
+            ]
+        ]
+    },
+    {
+        "id": "5666db37.089a64",
+        "type": "debug",
+        "z": "b148fd36.4b73f",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 550,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "7bddf253.14f6bc",
+        "type": "ui_ui_control",
+        "z": "b148fd36.4b73f",
+        "d": true,
+        "name": "",
+        "events": "all",
+        "x": 320,
+        "y": 280,
+        "wires": [
+            [
+                "5666db37.089a64"
+            ]
+        ]
+    },
+    {
+        "id": "6d0293f1.adc08c",
+        "type": "inject",
+        "z": "b148fd36.4b73f",
+        "name": "",
+        "topic": "",
+        "payload": "Bedroom",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 140,
+        "y": 420,
+        "wires": [
+            [
+                "7e80e0aa.d4d66"
+            ]
+        ]
+    },
+    {
+        "id": "528c4282.c9e3bc",
+        "type": "inject",
+        "z": "b148fd36.4b73f",
+        "name": "",
+        "topic": "",
+        "payload": "Default",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 130,
+        "y": 380,
+        "wires": [
+            [
+                "7e80e0aa.d4d66"
+            ]
+        ]
+    },
+    {
+        "id": "7e80e0aa.d4d66",
+        "type": "ui_template",
+        "z": "b148fd36.4b73f",
+        "group": "f9e838f5.7f63f8",
+        "name": "Change Group Name",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "format": "<script>\n(function($scope) {\n$scope.msg = {'payload':'Default'} // initial group placeholder name\n\n$scope.$watch('msg', function() {\n    if ($scope.msg){\n        $(\".nr-dashboard-cardtitle:contains('\"+ $scope.oldtitle + \"')\").text($scope.msg.payload);\n        $scope.oldtitle = $scope.msg.payload\n    }\n    console.log('xxx');\n });\n})(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "templateScope": "local",
+        "x": 400,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c8e29693.7e06c8",
+        "type": "ui_template",
+        "z": "b148fd36.4b73f",
+        "d": true,
+        "group": "f9e838f5.7f63f8",
+        "name": "ColorPick",
+        "order": 10,
+        "width": "0",
+        "height": "0",
+        "format": "<html>\n      <head><script src=\"https://cdn.jsdelivr.net/npm/@jaames/iro/dist/iro.min.js\"></script></head>\n     <div class=\"colorPicker\"></div>\n      <script type=\"text/javascript\">\n        // create color picker in display range.\nvar colorPicker = new iro.ColorPicker(\".colorPicker\", {\n// color picker options\n// Option guide: https://iro.js.org/guide.html#color-picker-options\nwidth: 180,\ncolor: \"rgb(255, 0, 0)\",\nborderWidth: 1,\nborderColor: \"#fff\",\n});\n//Since the scope function is used within a function declare it here:\nvar theScope = scope;\nvar values = document.getElementById(\"values\");\n// read color value\ncolorPicker.on([\"color:init\", \"color:change\"], function(color){\n    theScope.send({payload:color.hexString});\nvalues.innerHTML = [\n\"hex: \" + color.hexString,\n//\"rgb: \" + color.rgbString,\n//\"hsl: \" + color.hslString,\n].join(\"<br>\");\n});\n</script>\n<div id=\"values\"></div>\n</html>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "templateScope": "local",
+        "x": 100,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "45255568.1f226c",
+        "type": "inject",
+        "z": "b148fd36.4b73f",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 110,
+        "y": 660,
+        "wires": [
+            [
+                "a8d064f2.d58478"
+            ]
+        ]
+    },
+    {
+        "id": "9c27221b.a09c7",
+        "type": "debug",
+        "z": "b148fd36.4b73f",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 810,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "a8d064f2.d58478",
+        "type": "function",
+        "z": "b148fd36.4b73f",
+        "name": "Singapore",
+        "func": "msg.payload = {\n    q       : node.name,\n    appid   : 'a6fefb7fbd914a3fa310aa1d5cfaf185',\n    units   : 'metric'\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 270,
+        "y": 660,
+        "wires": [
+            [
+                "9ffc6557.09a8e8"
+            ]
+        ]
+    },
+    {
+        "id": "9ffc6557.09a8e8",
+        "type": "http request",
+        "z": "b148fd36.4b73f",
+        "name": "Weather",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": true,
+        "url": "https://api.openweathermap.org/data/2.5/weather",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 460,
+        "y": 660,
+        "wires": [
+            [
+                "a1966b2d.d34c08"
+            ]
+        ]
+    },
+    {
+        "id": "a1966b2d.d34c08",
+        "type": "function",
+        "z": "b148fd36.4b73f",
+        "name": "Data",
+        "func": "/*\n\n{\n\"coord\":{\"lon\":103.85,\"lat\":1.29},\n\"weather\":[{\n    \"id\":803,\n    \"main\":\"Clouds\",\n    \"description\":\"broken clouds\",\n    \"icon\":\"04n\"\n}],\n\"base\":\"stations\",\n\"main\":{\n    \"temp\":27.37,\n    \"feels_like\":30.9,\n    \"temp_min\":26.67,\n    \"temp_max\":28,\n    \"pressure\":1011,\n    \"humidity\":78},\n    \"visibility\":10000,\n\"wind\":{\n    \"speed\":2.6,\n    \"deg\":50\n\n},\n\"clouds\":{\"all\":75},\n\"dt\":1581776573,\n\"sys\":{\n    \"type\":1,\n    \"id\":9470,\n    \"country\":\"SG\",\n    \"sunrise\":1581722200,\n    \"sunset\":1581765667},\n    \"timezone\":28800,\n    \"id\":1880252,\n    \"name\":\"Singapore\",\n    \"cod\":200\n}\n*/\n\n\nmsg.payload = {\n    name        : 'Weather',\n    chart       : 'weather',\n    tmp         : msg.payload.main.temp,\n    hum         : msg.payload.main.humidity,\n    wind_speed  : msg.payload.wind.speed\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 630,
+        "y": 660,
+        "wires": [
+            [
+                "9c27221b.a09c7"
+            ]
+        ]
+    },
+    {
+        "id": "570d2cdc.3b2b14",
+        "type": "comment",
+        "z": "b148fd36.4b73f",
+        "name": "Weather",
+        "info": "",
+        "x": 100,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "89d12e58.ce79d",
+        "type": "inject",
+        "z": "b148fd36.4b73f",
+        "name": "",
+        "topic": "Test",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "0",
+        "x": 90,
+        "y": 760,
+        "wires": [
+            [
+                "1a042c37.1a8804"
+            ]
+        ]
+    },
+    {
+        "id": "1a042c37.1a8804",
+        "type": "function",
+        "z": "b148fd36.4b73f",
+        "name": "Variables",
+        "func": "var count = context.get('count')||0;\ncount += 1;\ncontext.set('count',count);\n\n\n//env.set('left','Bedroom');\n\nflow.set('groups',{\n    'left'      : 'Bedroom',\n    'center'    : 'Weather',\n    'right'     : 'Lounge'\n});\n\n/*\nnode.warn(count);\nnode.warn(flow.get('groups'));\nnode.warn('Node name:'+node.name);\nnode.warn('Topic:'+msg.topic)\n*/\n\nnode.warn(env.get('jinou_groups.left'));\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 260,
+        "y": 760,
+        "wires": [
+            [
+                "f6fb450d.9d21a8"
+            ]
+        ]
+    },
+    {
+        "id": "f6fb450d.9d21a8",
+        "type": "jinou-ble",
+        "z": "b148fd36.4b73f",
+        "name": "${jinou_left}",
+        "address": "cd:d7:51:15:0f:7e",
+        "x": 430,
+        "y": 760,
+        "wires": [
+            [
+                "eeb8391d.44ad68"
+            ]
+        ]
+    },
+    {
+        "id": "eeb8391d.44ad68",
+        "type": "debug",
+        "z": "b148fd36.4b73f",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 610,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "1e210d62.5c83f3",
+        "type": "http request",
+        "z": "b148fd36.4b73f",
+        "name": "BBC Weather",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "https://weather-broker-cdn.api.bbci.co.uk/en/observation/rss/2654461",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 320,
+        "y": 160,
+        "wires": [
+            [
+                "16a2a64b.0e291a"
+            ]
+        ]
+    },
+    {
+        "id": "9bc11988.cd5a08",
+        "type": "inject",
+        "z": "b148fd36.4b73f",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 120,
+        "y": 160,
+        "wires": [
+            [
+                "1e210d62.5c83f3"
+            ]
+        ]
+    },
+    {
+        "id": "16a2a64b.0e291a",
+        "type": "xml",
+        "z": "b148fd36.4b73f",
+        "name": "",
+        "property": "payload",
+        "attr": "",
+        "chr": "",
+        "x": 510,
+        "y": 160,
+        "wires": [
+            [
+                "28c644a9.ab73fc"
+            ]
+        ]
+    },
+    {
+        "id": "28c644a9.ab73fc",
+        "type": "function",
+        "z": "b148fd36.4b73f",
+        "name": "Parse",
+        "func": "var raw = msg.payload.rss.channel[0].item[0].description[0].split(', ');\n\nvar data = {};\nvar keys = {\n    \"Temperature\"       :['tmp',function(val){return parseInt(val)}],\n    \"Wind Direction\"    :['wind_dir',function(val){return val}],\n    \"Wind Speed\"        :['wind_speed',function(val){return parseInt(val)}],\n    \"Humidity\"          :['hum',function(val){return parseInt(val)}],\n    \"Pressure\"          :['pressure',function(val){return parseInt(val)}],\n    \"Visibility\"        :['visibility',function(val){return val}]\n}\n\nfor(var i in raw){\n    var bits = raw[i].split(': ');\n    var key = keys[bits[0]];\n    if(bits.length == 2) data[key[0]] = key[1](bits[1]);\n}\n\nmsg.payload = data;\nreturn msg;\n\n/*\n\"Temperature: 14°C (57°F), Wind Direction: South South Westerly, Wind Speed: 34mph, Humidity: 82%, Pressure: 987mb, Falling, Visibility: --\"\n{\n    \"Temperature\":\"14°C (57°F)\",\n    \"Wind Direction\":\"South South Westerly\",\n    \"Wind Speed\":\"34mph\",\n    \"Humidity\":\"82%\",\n    \"Pressure\":\"987mb\",\n    \"Visibility\":\"--\"\n}\n\n*/",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 670,
+        "y": 160,
+        "wires": [
+            [
+                "6de311b8.f4ef8"
+            ]
+        ]
+    },
+    {
+        "id": "6de311b8.f4ef8",
+        "type": "debug",
+        "z": "b148fd36.4b73f",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 830,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "fb896e36.e63c8",
+        "type": "function",
+        "z": "b148fd36.4b73f",
+        "d": true,
+        "name": "Spryng",
+        "func": "var token = \"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjQyZGIyNWM1NDc4YTdjNTkzM2Q1MGU0MzAzY2YzYzhlMTM1ZTdkNzA5NGM3YTFjMjllNzU4MTM1ZTllYTE1MGRkMTQ1NWE1NzU5YmNkOWRjIn0.eyJhdWQiOiIzIiwianRpIjoiNDJkYjI1YzU0NzhhN2M1OTMzZDUwZTQzMDNjZjNjOGUxMzVlN2Q3MDk0YzdhMWMyOWU3NTgxMzVlOWVhMTUwZGQxNDU1YTU3NTliY2Q5ZGMiLCJpYXQiOjE1ODE5MTczNTEsIm5iZiI6MTU4MTkxNzM1MSwiZXhwIjo0NzM3NTkwOTUxLCJzdWIiOiI2MzQ3MiIsInNjb3BlcyI6W119.hhsLp_vapaa6mSddSevacYbmHfHSGgVuL5dAaJt7B7HTzWfHxOmo7NCsapOr7AHmicaH0M-rCrfNrQS_QyeOQKVx3To1P3-uzhQVjfBcQ00qfxk-PR1lN4EkWm6dCpIMo0VkF0ZcskJfpDh-RiJoyXzFnjfixhrzA7XbPwauGqjqDTMzCyIimr61V85muf42myEjHps1YBT-0YCb4cp4X7EvdP6uehG1maw_V4vLj3IUYCVDdeC_r_k8dwC2kuedhqanJIU9n9DgpjQ2G5pg5ZRNJl2puuRjkSNFwmk6MLKWKm9PfJCbXMiyZz6IrXG4bBvYQFzPGksyTIs9gmCGgL9LXBPVUa3HCzYNwo7U_k8At3-LzHgMq4QOKcYPM2hh8ogZjWV301kRR-mBoI89JC1o2GsO32kmL9r2ZTliBNEPEhTE6KzptePy7L5-VYQqlcbU8pl_w1LT2_sm6ipXOT3UuGyOC3f3uBFEcsrZ6HPJNGuE8odvb7gMVzx-59ja-oq863eJihO5OFpA9U3V_K80u8riU5CmqGkPqQKITTywOnCfmmyYOAbQmxqBgozkmGBslIJevj0dIa8fWqdNio8pDUeWmYL61A6qEjinbA4ybIAEYA5rIYimlWt_ceGRipjLqlbH6_4yQtLRyNM-IK5zdB8JnW2aB8UqHSqRj8o\"\n\nvar https = require('follow-redirects').https;\nvar fs = require('fs');\n\nvar options = {\n  'method': 'POST',\n  'hostname': 'rest.spryngsms.com',\n  'path': '/v1/messages',\n  'headers': {\n    'Accept': 'application/json',\n    'Authorization': `Bearer ${token}`,\n    'Content-Type': 'application/json'\n  },\n  'maxRedirects': 20\n};\n\nvar req = https.request(options, function (res) {\n  var chunks = [];\n\n  res.on(\"data\", function (chunk) {\n    chunks.push(chunk);\n  });\n\n  res.on(\"end\", function (chunk) {\n    var body = Buffer.concat(chunks);\n    node.warn(body.toString());\n  });\n\n  res.on(\"error\", function (error) {\n    node.warn(error);\n  });\n});\n\nvar postData = JSON.stringify({\"body\":\"This is a test message.\",\"encoding\":\"unicode\",\"originator\":\"DocsTest\",\"recipients\":[\"31612345678\"],\"route\":\"business\",\"scheduled_at\":\"2019-01-01T15:00:00+00:00\"});\n\nreq.write(postData);\n\nreq.end();",
+        "outputs": 0,
+        "noerr": 0,
+        "x": 300,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "1a81b159.6519bf",
+        "type": "inject",
+        "z": "b148fd36.4b73f",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 110,
+        "y": 80,
+        "wires": [
+            [
+                "fb896e36.e63c8",
+                "82d90613.7130c8"
+            ]
+        ]
+    },
+    {
+        "id": "82d90613.7130c8",
+        "type": "function",
+        "z": "b148fd36.4b73f",
+        "name": "",
+        "func": "var myHeaders = [];\nmyHeaders.push(\"Accept\", \"application/json\");\nmyHeaders.push(\"Authorization\", `Bearer ${env.get('spryng_token')}`);\nmyHeaders.push(\"Content-Type\", \"application/json\");\n\nvar raw = JSON.stringify({\"body\":\"This is a test message.\",\"encoding\":\"unicode\",\"originator\":\"DocsTest\",\"recipients\":[\"31612345678\"],\"route\":\"business\",\"scheduled_at\":\"2019-01-01T15:00:00+00:00\"});\n\nvar requestOptions = {\n  method: 'POST',\n  headers: myHeaders,\n  body: raw,\n  redirect: 'follow'\n};\n\nfetch(\"https://rest.spryngsms.com/v1/messages\", requestOptions)\n  .then(response => response.text())\n  .then(result => console.log(result))\n  .catch(error => console.log('error', error));\n  \n  ",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 300,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f9e838f5.7f63f8",
+        "type": "ui_group",
+        "z": "",
+        "name": "Default",
+        "tab": "bb1c6f82.3b7fb",
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "bb1c6f82.3b7fb",
+        "type": "ui_tab",
+        "z": "",
+        "d": true,
+        "name": "Tests",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]
