@@ -1,194 +1,276 @@
 [
     {
-        "id": "b148fd36.4b73f",
-        "type": "tab",
-        "label": "Tests",
-        "disabled": false,
-        "info": ""
+        "id": "85a7c8c0.632298",
+        "type": "subflow",
+        "name": "Variables",
+        "info": "",
+        "category": "",
+        "in": [],
+        "out": [
+            {
+                "x": 380,
+                "y": 40,
+                "wires": [
+                    {
+                        "id": "6bca9fc5.bfb12",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "test",
+                "type": "str",
+                "value": ""
+            },
+            {
+                "name": "jinou_location",
+                "type": "env",
+                "value": "jinou_location"
+            }
+        ],
+        "color": "#DDAA99"
     },
     {
-        "id": "f6197666.57a978",
+        "id": "e7b87af4.647c48",
         "type": "inject",
-        "z": "b148fd36.4b73f",
+        "z": "85a7c8c0.632298",
         "name": "",
-        "topic": "",
+        "topic": "Init",
         "payload": "",
-        "payloadType": "str",
+        "payloadType": "date",
         "repeat": "",
         "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "x": 130,
-        "y": 280,
+        "once": true,
+        "onceDelay": "0",
+        "x": 120,
+        "y": 40,
         "wires": [
             [
-                "7bddf253.14f6bc"
+                "6bca9fc5.bfb12"
             ]
         ]
     },
     {
-        "id": "5666db37.089a64",
-        "type": "debug",
-        "z": "b148fd36.4b73f",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 550,
-        "y": 280,
-        "wires": []
-    },
-    {
-        "id": "7bddf253.14f6bc",
-        "type": "ui_ui_control",
-        "z": "b148fd36.4b73f",
-        "d": true,
-        "name": "",
-        "events": "all",
-        "x": 320,
-        "y": 280,
-        "wires": [
-            [
-                "5666db37.089a64"
-            ]
-        ]
-    },
-    {
-        "id": "6d0293f1.adc08c",
-        "type": "inject",
-        "z": "b148fd36.4b73f",
-        "name": "",
-        "topic": "",
-        "payload": "Bedroom",
-        "payloadType": "str",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "x": 140,
-        "y": 420,
-        "wires": [
-            [
-                "7e80e0aa.d4d66"
-            ]
-        ]
-    },
-    {
-        "id": "528c4282.c9e3bc",
-        "type": "inject",
-        "z": "b148fd36.4b73f",
-        "name": "",
-        "topic": "",
-        "payload": "Default",
-        "payloadType": "str",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "x": 130,
-        "y": 380,
-        "wires": [
-            [
-                "7e80e0aa.d4d66"
-            ]
-        ]
-    },
-    {
-        "id": "7e80e0aa.d4d66",
-        "type": "ui_template",
-        "z": "b148fd36.4b73f",
-        "group": "f9e838f5.7f63f8",
-        "name": "Change Group Name",
-        "order": 4,
-        "width": 0,
-        "height": 0,
-        "format": "<script>\n(function($scope) {\n$scope.msg = {'payload':'Default'} // initial group placeholder name\n\n$scope.$watch('msg', function() {\n    if ($scope.msg){\n        $(\".nr-dashboard-cardtitle:contains('\"+ $scope.oldtitle + \"')\").text($scope.msg.payload);\n        $scope.oldtitle = $scope.msg.payload\n    }\n    console.log('xxx');\n });\n})(scope);\n</script>",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "templateScope": "local",
-        "x": 400,
-        "y": 380,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "c8e29693.7e06c8",
-        "type": "ui_template",
-        "z": "b148fd36.4b73f",
-        "d": true,
-        "group": "f9e838f5.7f63f8",
-        "name": "ColorPick",
-        "order": 10,
-        "width": "0",
-        "height": "0",
-        "format": "<html>\n      <head><script src=\"https://cdn.jsdelivr.net/npm/@jaames/iro/dist/iro.min.js\"></script></head>\n     <div class=\"colorPicker\"></div>\n      <script type=\"text/javascript\">\n        // create color picker in display range.\nvar colorPicker = new iro.ColorPicker(\".colorPicker\", {\n// color picker options\n// Option guide: https://iro.js.org/guide.html#color-picker-options\nwidth: 180,\ncolor: \"rgb(255, 0, 0)\",\nborderWidth: 1,\nborderColor: \"#fff\",\n});\n//Since the scope function is used within a function declare it here:\nvar theScope = scope;\nvar values = document.getElementById(\"values\");\n// read color value\ncolorPicker.on([\"color:init\", \"color:change\"], function(color){\n    theScope.send({payload:color.hexString});\nvalues.innerHTML = [\n\"hex: \" + color.hexString,\n//\"rgb: \" + color.rgbString,\n//\"hsl: \" + color.hslString,\n].join(\"<br>\");\n});\n</script>\n<div id=\"values\"></div>\n</html>",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "templateScope": "local",
-        "x": 100,
-        "y": 540,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "45255568.1f226c",
-        "type": "inject",
-        "z": "b148fd36.4b73f",
-        "name": "",
-        "topic": "",
-        "payload": "",
-        "payloadType": "str",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "x": 110,
-        "y": 660,
-        "wires": [
-            [
-                "a8d064f2.d58478"
-            ]
-        ]
-    },
-    {
-        "id": "9c27221b.a09c7",
-        "type": "debug",
-        "z": "b148fd36.4b73f",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 810,
-        "y": 660,
-        "wires": []
-    },
-    {
-        "id": "a8d064f2.d58478",
+        "id": "6bca9fc5.bfb12",
         "type": "function",
-        "z": "b148fd36.4b73f",
-        "name": "Singapore",
-        "func": "msg.payload = {\n    q       : node.name,\n    appid   : 'a6fefb7fbd914a3fa310aa1d5cfaf185',\n    units   : 'metric'\n}\n\nreturn msg;",
+        "z": "85a7c8c0.632298",
+        "name": "",
+        "func": "var vars = [\n    'test',\n    'jinou_location'\n]\nmsg.payload = {};\nfor(var item in vars){\n    var key = vars[item];\n    var value = env.get(key); \n    global.set(key,value);\n    msg.payload[key] = value;\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 270,
-        "y": 660,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5ae9d0c9.7bf23",
+        "type": "subflow",
+        "name": "changeTitle",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 60,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "60107649.9577e8"
+                    }
+                ]
+            }
+        ],
+        "out": [],
+        "env": [
+            {
+                "name": "title",
+                "type": "str",
+                "value": ""
+            },
+            {
+                "name": "label_prefix",
+                "type": "str",
+                "value": ""
+            },
+            {
+                "name": "label_text",
+                "type": "str",
+                "value": ""
+            },
+            {
+                "name": "label_suffix",
+                "type": "str",
+                "value": ""
+            }
+        ],
+        "color": "#DDAA99"
+    },
+    {
+        "id": "60107649.9577e8",
+        "type": "function",
+        "z": "5ae9d0c9.7bf23",
+        "name": "Group Title",
+        "func": "msg.template = `\n<style>.nr-dashboard-cardtitle.ng-binding.ng-scope {text-transform: capitalize;}</style>\n<script>\n    var title = document.querySelector(\"#${env.get('title')} .nr-dashboard-cardtitle.ng-binding.ng-scope\");\n    title.innerHTML = \"${env.get('label_prefix')}${env.get('label_text')}${env.get('label_suffix')}\";\n</script>`\nreturn msg\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 190,
+        "y": 80,
         "wires": [
             [
-                "9ffc6557.09a8e8"
+                "f8935469.fff4d8"
             ]
         ]
     },
     {
-        "id": "9ffc6557.09a8e8",
+        "id": "f8935469.fff4d8",
+        "type": "ui_template",
+        "z": "5ae9d0c9.7bf23",
+        "group": "b56379a8.fb1788",
+        "name": "",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "format": "<!-- Change Title -->",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "templateScope": "global",
+        "x": 360,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "dbb76146.2b018",
+        "type": "subflow",
+        "name": "weather",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "9e90e86.2a6e618"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 960,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "48616846.fd06a8",
+                        "port": 0
+                    },
+                    {
+                        "id": "80acf906.98be28",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "source",
+                "type": "str",
+                "value": ""
+            }
+        ],
+        "color": "#DDAA99"
+    },
+    {
+        "id": "e0bb8575.fbbab8",
         "type": "http request",
-        "z": "b148fd36.4b73f",
-        "name": "Weather",
+        "z": "dbb76146.2b018",
+        "name": "Get",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "https://weather-broker-cdn.api.bbci.co.uk/en/observation/rss/{{{payload}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 530,
+        "y": 80,
+        "wires": [
+            [
+                "8bf86cba.6baa7"
+            ]
+        ]
+    },
+    {
+        "id": "8bf86cba.6baa7",
+        "type": "xml",
+        "z": "dbb76146.2b018",
+        "name": "",
+        "property": "payload",
+        "attr": "",
+        "chr": "",
+        "x": 670,
+        "y": 80,
+        "wires": [
+            [
+                "48616846.fd06a8"
+            ]
+        ]
+    },
+    {
+        "id": "48616846.fd06a8",
+        "type": "function",
+        "z": "dbb76146.2b018",
+        "name": "Parse",
+        "func": "//node.warn(msg.uom);\n\nvar raw = msg.payload.rss.channel[0].item[0].description[0].split(', ');\n\nvar data = {\n    name        : 'Weather',\n    chart       : 'weather',\n    provider    : env.get('provider'),\n    wind_units  : env.get('jinou_wind_units').toUpperCase()\n};\n\nvar keys = {\n    \"Temperature\"       :['tmp',function(val){return parseInt(val)}],\n    \"Wind Direction\"    :['wind_dir',function(val){return val}],\n    \"Wind Speed\"        :['wind_speed',function(val){return parseInt(val)}],\n    \"Humidity\"          :['hum',function(val){return parseInt(val)}],\n    \"Pressure\"          :['pressure',function(val){return parseInt(val)}],\n    \"Visibility\"        :['visibility',function(val){return val}]\n}\n\nfor(var i in raw){\n    var bits = raw[i].split(': ');\n    var key = keys[bits[0]];\n    if(bits.length == 2) data[key[0]] = key[1](bits[1]);\n}\n\nmsg.payload = data;\n//node.warn(data);\nreturn msg;\n\n/*\n\"Temperature: 14°C (57°F), Wind Direction: South South Westerly, Wind Speed: 34mph, Humidity: 82%, Pressure: 987mb, Falling, Visibility: --\"\n{\n    \"Temperature\":\"14°C (57°F)\",\n    \"Wind Direction\":\"South South Westerly\",\n    \"Wind Speed\":\"34mph\",\n    \"Humidity\":\"82%\",\n    \"Pressure\":\"987mb\",\n    \"Visibility\":\"--\"\n}\n\n*/",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 810,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4bc12511.64bf3c",
+        "type": "function",
+        "z": "dbb76146.2b018",
+        "name": "BBC",
+        "func": "var keys = {\n    'Singapore'   : '1884367',\n    'Brundall,gb' : '2654461'\n}\n\nmsg.uom = 'MPH';\nmsg.payload = keys[env.get('jinou_location')]\nmsg.method = 'GET';\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 350,
+        "y": 80,
+        "wires": [
+            [
+                "e0bb8575.fbbab8"
+            ]
+        ]
+    },
+    {
+        "id": "80acf906.98be28",
+        "type": "function",
+        "z": "dbb76146.2b018",
+        "name": "Parse",
+        "func": "/*\n\n{\n\"coord\":{\"lon\":103.85,\"lat\":1.29},\n\"weather\":[{\n    \"id\":803,\n    \"main\":\"Clouds\",\n    \"description\":\"broken clouds\",\n    \"icon\":\"04n\"\n}],\n\"base\":\"stations\",\n\"main\":{\n    \"temp\":27.37,\n    \"feels_like\":30.9,\n    \"temp_min\":26.67,\n    \"temp_max\":28,\n    \"pressure\":1011,\n    \"humidity\":78},\n    \"visibility\":10000,\n\"wind\":{\n    \"speed\":2.6,\n    \"deg\":50\n\n},\n\"clouds\":{\"all\":75},\n\"dt\":1581776573,\n\"sys\":{\n    \"type\":1,\n    \"id\":9470,\n    \"country\":\"SG\",\n    \"sunrise\":1581722200,\n    \"sunset\":1581765667},\n    \"timezone\":28800,\n    \"id\":1880252,\n    \"name\":\"Singapore\",\n    \"cod\":200\n}\n*/\n\nvar unit = {\n    'kmh': 3.6,\n    'mph': 2.237\n}[env.get('jinou_wind_units').toLowerCase()];\n\nnode.warn(unit);\n\nmsg.payload = {\n    name        : 'Weather',\n    chart       : 'weather',\n    provider    : 'open',\n    wind_units  : env.get('jinou_wind_units').toUpperCase(),\n    tmp         : msg.payload.main.temp,\n    hum         : msg.payload.main.humidity,\n    wind_speed  : msg.payload.wind.speed * unit,\n    pressure    : msg.payload.wind.pressure,\n    \n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 810,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4128b315.48ec6c",
+        "type": "http request",
+        "z": "dbb76146.2b018",
+        "name": "Get",
         "method": "GET",
         "ret": "obj",
         "paytoqs": true,
@@ -197,94 +279,1048 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 460,
-        "y": 660,
+        "x": 530,
+        "y": 120,
         "wires": [
             [
-                "a1966b2d.d34c08"
+                "80acf906.98be28"
             ]
         ]
     },
     {
-        "id": "a1966b2d.d34c08",
+        "id": "a5bb398.b4d6ec8",
         "type": "function",
-        "z": "b148fd36.4b73f",
-        "name": "Data",
-        "func": "/*\n\n{\n\"coord\":{\"lon\":103.85,\"lat\":1.29},\n\"weather\":[{\n    \"id\":803,\n    \"main\":\"Clouds\",\n    \"description\":\"broken clouds\",\n    \"icon\":\"04n\"\n}],\n\"base\":\"stations\",\n\"main\":{\n    \"temp\":27.37,\n    \"feels_like\":30.9,\n    \"temp_min\":26.67,\n    \"temp_max\":28,\n    \"pressure\":1011,\n    \"humidity\":78},\n    \"visibility\":10000,\n\"wind\":{\n    \"speed\":2.6,\n    \"deg\":50\n\n},\n\"clouds\":{\"all\":75},\n\"dt\":1581776573,\n\"sys\":{\n    \"type\":1,\n    \"id\":9470,\n    \"country\":\"SG\",\n    \"sunrise\":1581722200,\n    \"sunset\":1581765667},\n    \"timezone\":28800,\n    \"id\":1880252,\n    \"name\":\"Singapore\",\n    \"cod\":200\n}\n*/\n\n\nmsg.payload = {\n    name        : 'Weather',\n    chart       : 'weather',\n    tmp         : msg.payload.main.temp,\n    hum         : msg.payload.main.humidity,\n    wind_speed  : msg.payload.wind.speed\n}\n\nreturn msg;",
+        "z": "dbb76146.2b018",
+        "name": "Open Weather",
+        "func": "msg.payload = {\n    q       : env.get('jinou_location'),\n    appid   : 'a6fefb7fbd914a3fa310aa1d5cfaf185',\n    units   : 'metric'\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 630,
-        "y": 660,
+        "x": 380,
+        "y": 120,
         "wires": [
             [
-                "9c27221b.a09c7"
+                "4128b315.48ec6c"
             ]
         ]
     },
     {
-        "id": "570d2cdc.3b2b14",
-        "type": "comment",
-        "z": "b148fd36.4b73f",
-        "name": "Weather",
+        "id": "9e90e86.2a6e618",
+        "type": "switch",
+        "z": "dbb76146.2b018",
+        "name": "Provider",
+        "property": "source",
+        "propertyType": "env",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "bbc",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "open",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 180,
+        "y": 100,
+        "wires": [
+            [
+                "4bc12511.64bf3c"
+            ],
+            [
+                "a5bb398.b4d6ec8"
+            ]
+        ]
+    },
+    {
+        "id": "ec000813.2bd2a8",
+        "type": "subflow",
+        "name": "jinouCenter",
         "info": "",
-        "x": 100,
-        "y": 620,
+        "category": "",
+        "in": [
+            {
+                "x": 200,
+                "y": 120,
+                "wires": [
+                    {
+                        "id": "76e1d362.6464bc"
+                    },
+                    {
+                        "id": "fba64006.1175f"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 580,
+                "y": 40,
+                "wires": [
+                    {
+                        "id": "76e1d362.6464bc",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "weather_source",
+                "type": "str",
+                "value": ""
+            }
+        ],
+        "color": "#DDAA99"
+    },
+    {
+        "id": "f9346056.3ecb4",
+        "type": "ui_gauge",
+        "z": "ec000813.2bd2a8",
+        "name": "Temp",
+        "group": "b56379a8.fb1788",
+        "order": 2,
+        "width": "5",
+        "height": "4",
+        "gtype": "gage",
+        "title": "Temperature",
+        "label": "DEGREES C",
+        "format": "{{msg.payload.tmp | number:2}}",
+        "min": "${jinou_temp_min}",
+        "max": "${jinou_temp_max}",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 610,
+        "y": 120,
         "wires": []
     },
     {
-        "id": "89d12e58.ce79d",
-        "type": "inject",
-        "z": "b148fd36.4b73f",
+        "id": "1caa57bd.a485f8",
+        "type": "ui_gauge",
+        "z": "ec000813.2bd2a8",
+        "name": "Humid",
+        "group": "b56379a8.fb1788",
+        "order": 3,
+        "width": "5",
+        "height": "4",
+        "gtype": "gage",
+        "title": "Humidity",
+        "label": "PERCENTAGE",
+        "format": "{{msg.payload.hum | number:2}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 610,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "334f5107.dac6ee",
+        "type": "ui_gauge",
+        "z": "ec000813.2bd2a8",
+        "name": "Wind",
+        "group": "b56379a8.fb1788",
+        "order": 1,
+        "width": "5",
+        "height": "4",
+        "gtype": "gage",
+        "title": "Wind",
+        "label": "{{msg.payload.wind_units}}",
+        "format": "{{msg.payload.wind_speed | number:2}}",
+        "min": 0,
+        "max": "50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 610,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "76e1d362.6464bc",
+        "type": "subflow:dbb76146.2b018",
+        "z": "ec000813.2bd2a8",
+        "name": "Weather",
+        "env": [
+            {
+                "name": "source",
+                "value": "weather_source",
+                "type": "env"
+            },
+            {
+                "name": "provider",
+                "value": "provider",
+                "type": "env"
+            }
+        ],
+        "x": 340,
+        "y": 120,
+        "wires": [
+            [
+                "334f5107.dac6ee",
+                "f9346056.3ecb4",
+                "1caa57bd.a485f8"
+            ]
+        ]
+    },
+    {
+        "id": "fba64006.1175f",
+        "type": "subflow:5ae9d0c9.7bf23",
+        "z": "ec000813.2bd2a8",
         "name": "",
-        "topic": "Test",
+        "env": [
+            {
+                "name": "title",
+                "value": "Home_Weather",
+                "type": "str"
+            },
+            {
+                "name": "label_prefix",
+                "value": "Weather - ",
+                "type": "str"
+            },
+            {
+                "name": "label_text",
+                "value": "weather_source",
+                "type": "env"
+            },
+            {
+                "name": "label",
+                "value": "provider",
+                "type": "env"
+            },
+            {
+                "name": "group",
+                "value": "Home_Weather",
+                "type": "str"
+            }
+        ],
+        "x": 350,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "b3e237d3.39fcd8",
+        "type": "subflow",
+        "name": "jinouRight",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 40,
+                "y": 160,
+                "wires": [
+                    {
+                        "id": "5c9d8df3.c66254"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 400,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "5c9d8df3.c66254",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "color": "#DDAA99"
+    },
+    {
+        "id": "81a4d0c3.c5e13",
+        "type": "ui_gauge",
+        "z": "b3e237d3.39fcd8",
+        "name": "Temp",
+        "group": "6897247e.b9192c",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Temperature",
+        "label": "Deg C",
+        "format": "{{msg.payload.tmp | number:2}}",
+        "min": "${jinou_temp_min}",
+        "max": "${jinou_temp_max}",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 430,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "6ccf1d9d.62c884",
+        "type": "ui_gauge",
+        "z": "b3e237d3.39fcd8",
+        "name": "Humid",
+        "group": "6897247e.b9192c",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Humidity",
+        "label": "RH %",
+        "format": "{{msg.payload.hum | number:2}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 430,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "89112cc9.6c1d4",
+        "type": "ui_gauge",
+        "z": "b3e237d3.39fcd8",
+        "name": "Batt",
+        "group": "6897247e.b9192c",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Battery",
+        "label": "%",
+        "format": "{{msg.payload.batt | number:2}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#ff2600",
+            "#e6e600",
+            "#00f900"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 430,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "babb1cbf.10032",
+        "type": "ui_gauge",
+        "z": "b3e237d3.39fcd8",
+        "name": "Signal",
+        "group": "6897247e.b9192c",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Signal",
+        "label": "%",
+        "format": "{{msg.payload.sig | number:2}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#ff2600",
+            "#e6e600",
+            "#00f900"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 430,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "81352165.bcdcb",
+        "type": "ui_text",
+        "z": "b3e237d3.39fcd8",
+        "group": "6897247e.b9192c",
+        "order": 5,
+        "width": "5",
+        "height": "2",
+        "name": "Info",
+        "label": "{{msg.payload.mac | uppercase}}",
+        "format": "{{msg.payload.stamp | date:'HH:mm:ss'}}",
+        "layout": "col-center",
+        "x": 430,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "5c9d8df3.c66254",
+        "type": "jinou-ble",
+        "z": "b3e237d3.39fcd8",
+        "name": "${jinou_r_group}",
+        "address": "${jinou_r_address}",
+        "x": 180,
+        "y": 160,
+        "wires": [
+            [
+                "81a4d0c3.c5e13",
+                "6ccf1d9d.62c884",
+                "89112cc9.6c1d4",
+                "babb1cbf.10032",
+                "81352165.bcdcb"
+            ]
+        ]
+    },
+    {
+        "id": "6897247e.b9192c",
+        "type": "ui_group",
+        "z": "",
+        "name": "${jinou_r_group}",
+        "tab": "c30b3430.436528",
+        "order": 4,
+        "disp": true,
+        "width": "5",
+        "collapse": false
+    },
+    {
+        "id": "ba241286.313c5",
+        "type": "subflow",
+        "name": "jinouLeft",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 40,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "b9fa0784.3dc7b8"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 400,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "b9fa0784.3dc7b8",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "color": "#DDAA99"
+    },
+    {
+        "id": "b9fa0784.3dc7b8",
+        "type": "jinou-ble",
+        "z": "ba241286.313c5",
+        "name": "${jinou_l_group}",
+        "address": "${jinou_l_address}",
+        "x": 180,
+        "y": 100,
+        "wires": [
+            [
+                "26308dab.76d392",
+                "59d20ecc.ac6fa",
+                "83e33ff8.7f23b",
+                "7a95db41.ce78b4",
+                "cd09a069.31674"
+            ]
+        ]
+    },
+    {
+        "id": "26308dab.76d392",
+        "type": "ui_gauge",
+        "z": "ba241286.313c5",
+        "name": "Temp",
+        "group": "c6a1ace1.fe02a",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Temperature",
+        "label": "Deg C",
+        "format": "{{msg.payload.tmp | number:2}}",
+        "min": "${jinou_temp_min}",
+        "max": "${jinou_temp_max}",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 430,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "59d20ecc.ac6fa",
+        "type": "ui_gauge",
+        "z": "ba241286.313c5",
+        "name": "Humid",
+        "group": "c6a1ace1.fe02a",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Humidity",
+        "label": "RH %",
+        "format": "{{msg.payload.hum | number:2}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 430,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "83e33ff8.7f23b",
+        "type": "ui_gauge",
+        "z": "ba241286.313c5",
+        "name": "Batt",
+        "group": "c6a1ace1.fe02a",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Battery",
+        "label": "%",
+        "format": "{{msg.payload.batt | number:2}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#ff2600",
+            "#e6e600",
+            "#00f900"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 430,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "7a95db41.ce78b4",
+        "type": "ui_gauge",
+        "z": "ba241286.313c5",
+        "name": "Signal",
+        "group": "c6a1ace1.fe02a",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Signal",
+        "label": "%",
+        "format": "{{msg.payload.sig | number:2}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#ff2600",
+            "#e6e600",
+            "#00f900"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 430,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "cd09a069.31674",
+        "type": "ui_text",
+        "z": "ba241286.313c5",
+        "group": "c6a1ace1.fe02a",
+        "order": 5,
+        "width": "5",
+        "height": "2",
+        "name": "Info",
+        "label": "{{msg.payload.mac | uppercase}}",
+        "format": "{{msg.payload.stamp | date:'HH:mm:ss'}}",
+        "layout": "col-center",
+        "x": 430,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "c6a1ace1.fe02a",
+        "type": "ui_group",
+        "z": "",
+        "name": "${jinou_l_group}",
+        "tab": "c30b3430.436528",
+        "order": 1,
+        "disp": true,
+        "width": "5",
+        "collapse": false
+    },
+    {
+        "id": "c30b3430.436528",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "bd2eaef2.fee4a",
+        "type": "subflow",
+        "name": "jinouCharts",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 260,
+                "y": 160,
+                "wires": [
+                    {
+                        "id": "4b0cb2fe.8f043c"
+                    }
+                ]
+            }
+        ],
+        "out": [],
+        "env": [
+            {
+                "name": "days",
+                "type": "num",
+                "value": "3"
+            }
+        ],
+        "color": "#DDAA99"
+    },
+    {
+        "id": "d0a8df15.f70f8",
+        "type": "ui_chart",
+        "z": "bd2eaef2.fee4a",
+        "name": "Temp",
+        "group": "b56379a8.fb1788",
+        "order": 4,
+        "width": "15",
+        "height": "7",
+        "label": "Temperature",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "${jinou_temp_min}",
+        "ymax": "${jinou_temp_max}",
+        "removeOlder": "7",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "colors": [
+            "#1f77b4",
+            "#cc0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "useOldStyle": false,
+        "outputs": 1,
+        "x": 630,
+        "y": 140,
+        "wires": [
+            [
+                "6af89e32.842cd"
+            ]
+        ]
+    },
+    {
+        "id": "4b0cb2fe.8f043c",
+        "type": "function",
+        "z": "bd2eaef2.fee4a",
+        "name": "Charts",
+        "func": "var now = '';\nif(msg.topic=='backup') now = `.${new Date().getTime()}`;\n\nreturn [\n    {\n        payload     : msg.payload.tmp,\n        topic       : msg.payload.name,\n        chart       : `temp${now}`,\n        fname       : 'temp'\n    },{\n        payload     : msg.payload.hum,\n        topic       : msg.payload.name,\n        chart       : `humid${now}`,\n        fname       : 'humid'\n    }\n]\n\n\n\n/*\nvar name = msg.payload.name;\nvar blank = [{\"series\":[\"Bedroom\",\"Lounge\"],\"data\":[[{\"x\":null,\"y\":null}],[{\"x\":null,\"y\":null}]],\"labels\":[\"\"]}];\n\nif(msg.topic=='clear'){\n    var temp = blank;\n    var humid = blank;\n} else {\n    temp = msg.payload.tmp;\n    humid = msg.payload.hum;\n}\n\nreturn [\n    {\n        payload     : temp,\n        topic       : name,\n        chart       : 'temp'\n    },{\n        payload     : humid,\n        topic       : name,\n        chart       : 'humid'\n    }\n]\n*/",
+        "outputs": 2,
+        "noerr": 0,
+        "x": 450,
+        "y": 160,
+        "wires": [
+            [
+                "d0a8df15.f70f8"
+            ],
+            [
+                "150dbb77.7b3605"
+            ]
+        ]
+    },
+    {
+        "id": "150dbb77.7b3605",
+        "type": "ui_chart",
+        "z": "bd2eaef2.fee4a",
+        "name": "Humid",
+        "group": "b56379a8.fb1788",
+        "order": 6,
+        "width": "15",
+        "height": "7",
+        "label": "Humidity",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "100",
+        "removeOlder": "7",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "colors": [
+            "#1f77b4",
+            "#cc0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "useOldStyle": false,
+        "outputs": 1,
+        "x": 630,
+        "y": 180,
+        "wires": [
+            [
+                "6af89e32.842cd"
+            ]
+        ]
+    },
+    {
+        "id": "6af89e32.842cd",
+        "type": "function",
+        "z": "bd2eaef2.fee4a",
+        "name": "Format",
+        "func": "if(!msg.chart) return;\n\n//node.warn(msg.topic);\n\nmsg.filename = '/root/.node-red/data/jinou.'+msg.chart+'.json';\nvar data = msg.payload;\n\nvar last = [{\n    series  : data[0].series,\n    data    : [],\n    labels  : data[0].labels\n}]\n\nvar days = env.get('days');\nvar now = new Date();\nfor(var i in data[0].data){\n    last[0].data.push([]);\n    var series = data[0].data[i]; \n    for (var s in series){\n        //last[0].data[i].push([]);\n        var stamp = new Date(series[s].x);\n        if(now - stamp < 1000*60*60*24*days) {\n            last[0].data[i].push(series[s]);\n        }\n    }\n}\n\nmsg.payload = JSON.stringify(last);\n\n//node.warn(data);\n//node.warn(last);\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 780,
+        "y": 160,
+        "wires": [
+            [
+                "45cdf097.a523d",
+                "7fe183bb.22a1cc"
+            ]
+        ]
+    },
+    {
+        "id": "7fe183bb.22a1cc",
+        "type": "file",
+        "z": "bd2eaef2.fee4a",
+        "name": "Save",
+        "filename": "",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 950,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fec26cbd.31452",
+        "type": "json",
+        "z": "bd2eaef2.fee4a",
+        "name": "json>obj",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 460,
+        "y": 100,
+        "wires": [
+            [
+                "d0a8df15.f70f8"
+            ]
+        ]
+    },
+    {
+        "id": "45645cc8.f5d3e4",
+        "type": "file in",
+        "z": "bd2eaef2.fee4a",
+        "name": "Load Temp",
+        "filename": "/root/.node-red/data/jinou.temp.json",
+        "format": "utf8",
+        "x": 290,
+        "y": 100,
+        "wires": [
+            [
+                "fec26cbd.31452"
+            ]
+        ]
+    },
+    {
+        "id": "9d235df3.5a91f",
+        "type": "inject",
+        "z": "bd2eaef2.fee4a",
+        "name": "Startup",
+        "topic": "restore",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0",
+        "x": 100,
+        "y": 160,
+        "wires": [
+            [
+                "48d7e9da.1821c8",
+                "45645cc8.f5d3e4"
+            ]
+        ]
+    },
+    {
+        "id": "48d7e9da.1821c8",
+        "type": "file in",
+        "z": "bd2eaef2.fee4a",
+        "name": "Load Humid",
+        "filename": "/root/.node-red/data/jinou.humid.json",
+        "format": "utf8",
+        "x": 290,
+        "y": 220,
+        "wires": [
+            [
+                "a8150855.2121a8"
+            ]
+        ]
+    },
+    {
+        "id": "a8150855.2121a8",
+        "type": "json",
+        "z": "bd2eaef2.fee4a",
+        "name": "json>obj",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 460,
+        "y": 220,
+        "wires": [
+            [
+                "150dbb77.7b3605"
+            ]
+        ]
+    },
+    {
+        "id": "45cdf097.a523d",
+        "type": "debug",
+        "z": "bd2eaef2.fee4a",
+        "d": true,
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 950,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "ded4818b.09661",
+        "type": "tab",
+        "label": "jinouMain",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "230c57fc.3a7738",
+        "type": "inject",
+        "z": "ded4818b.09661",
+        "name": "Timer",
+        "topic": "timer",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "60",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "x": 90,
+        "y": 140,
+        "wires": [
+            [
+                "9cf78d18.f3ee3"
+            ]
+        ]
+    },
+    {
+        "id": "c551694f.87eac8",
+        "type": "ui_button",
+        "z": "ded4818b.09661",
+        "d": true,
+        "name": "",
+        "group": "b56379a8.fb1788",
+        "order": 5,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "Clear",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "red",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "clear",
+        "x": 450,
+        "y": 240,
+        "wires": [
+            [
+                "6430f1e8.64e88"
+            ]
+        ]
+    },
+    {
+        "id": "9e93976e.bd7f28",
+        "type": "ui_button",
+        "z": "ded4818b.09661",
+        "d": true,
+        "name": "",
+        "group": "b56379a8.fb1788",
+        "order": 7,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "Refresh",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "green",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "refresh",
+        "x": 80,
+        "y": 180,
+        "wires": [
+            [
+                "9cf78d18.f3ee3"
+            ]
+        ]
+    },
+    {
+        "id": "9cf78d18.f3ee3",
+        "type": "switch",
+        "z": "ded4818b.09661",
+        "name": "",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 250,
+        "y": 160,
+        "wires": [
+            [
+                "d5d4dbee.dd9f08",
+                "8df10fc5.24b6",
+                "ddb73498.504908",
+                "727993a0.8c71ec"
+            ]
+        ]
+    },
+    {
+        "id": "22f413.3629fbee",
+        "type": "inject",
+        "z": "ded4818b.09661",
+        "d": true,
+        "name": "Clear",
+        "topic": "clear",
         "payload": "",
         "payloadType": "str",
         "repeat": "",
         "crontab": "",
         "once": false,
-        "onceDelay": "0",
-        "x": 90,
-        "y": 760,
+        "onceDelay": 0.1,
+        "x": 450,
+        "y": 280,
         "wires": [
             [
-                "1a042c37.1a8804"
+                "6430f1e8.64e88"
             ]
         ]
     },
     {
-        "id": "1a042c37.1a8804",
-        "type": "function",
-        "z": "b148fd36.4b73f",
-        "name": "Variables",
-        "func": "var count = context.get('count')||0;\ncount += 1;\ncontext.set('count',count);\n\n\n//env.set('left','Bedroom');\n\nflow.set('groups',{\n    'left'      : 'Bedroom',\n    'center'    : 'Weather',\n    'right'     : 'Lounge'\n});\n\n/*\nnode.warn(count);\nnode.warn(flow.get('groups'));\nnode.warn('Node name:'+node.name);\nnode.warn('Topic:'+msg.topic)\n*/\n\nnode.warn(env.get('jinou_groups.left'));\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 260,
-        "y": 760,
-        "wires": [
-            [
-                "f6fb450d.9d21a8"
-            ]
-        ]
-    },
-    {
-        "id": "f6fb450d.9d21a8",
+        "id": "158e65cd.92f94a",
         "type": "jinou-ble",
-        "z": "b148fd36.4b73f",
-        "name": "${jinou_left}",
-        "address": "cd:d7:51:15:0f:7e",
-        "x": 430,
-        "y": 760,
+        "z": "ded4818b.09661",
+        "name": "All Devices",
+        "address": "*",
+        "x": 250,
+        "y": 440,
         "wires": [
             [
-                "eeb8391d.44ad68"
+                "942855d2.1404f8"
             ]
         ]
     },
     {
-        "id": "eeb8391d.44ad68",
+        "id": "697218d6.6b2038",
+        "type": "inject",
+        "z": "ded4818b.09661",
+        "name": "All",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 90,
+        "y": 440,
+        "wires": [
+            [
+                "158e65cd.92f94a"
+            ]
+        ]
+    },
+    {
+        "id": "942855d2.1404f8",
         "type": "debug",
-        "z": "b148fd36.4b73f",
+        "z": "ded4818b.09661",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -292,164 +1328,144 @@
         "tostatus": false,
         "complete": "payload",
         "targetType": "msg",
-        "x": 610,
-        "y": 760,
+        "x": 450,
+        "y": 440,
         "wires": []
     },
     {
-        "id": "1e210d62.5c83f3",
-        "type": "http request",
-        "z": "b148fd36.4b73f",
-        "name": "BBC Weather",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": false,
-        "url": "https://weather-broker-cdn.api.bbci.co.uk/en/observation/rss/2654461",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "authType": "",
-        "x": 320,
-        "y": 160,
-        "wires": [
-            [
-                "16a2a64b.0e291a"
-            ]
-        ]
-    },
-    {
-        "id": "9bc11988.cd5a08",
-        "type": "inject",
-        "z": "b148fd36.4b73f",
+        "id": "6430f1e8.64e88",
+        "type": "subflow:bd2eaef2.fee4a",
+        "z": "ded4818b.09661",
         "name": "",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "x": 120,
-        "y": 160,
-        "wires": [
-            [
-                "1e210d62.5c83f3"
-            ]
-        ]
+        "env": [],
+        "x": 710,
+        "y": 200,
+        "wires": []
     },
     {
-        "id": "16a2a64b.0e291a",
-        "type": "xml",
-        "z": "b148fd36.4b73f",
+        "id": "d5d4dbee.dd9f08",
+        "type": "subflow:ba241286.313c5",
+        "z": "ded4818b.09661",
         "name": "",
-        "property": "payload",
-        "attr": "",
-        "chr": "",
-        "x": 510,
-        "y": 160,
+        "env": [
+            {
+                "name": "group",
+                "value": "jinou_l_group",
+                "type": "env"
+            }
+        ],
+        "x": 440,
+        "y": 120,
         "wires": [
             [
-                "28c644a9.ab73fc"
+                "6430f1e8.64e88"
             ]
         ]
     },
     {
-        "id": "28c644a9.ab73fc",
+        "id": "8df10fc5.24b6",
+        "type": "subflow:b3e237d3.39fcd8",
+        "z": "ded4818b.09661",
+        "x": 440,
+        "y": 200,
+        "wires": [
+            [
+                "6430f1e8.64e88"
+            ]
+        ]
+    },
+    {
+        "id": "ddb73498.504908",
+        "type": "subflow:ec000813.2bd2a8",
+        "z": "ded4818b.09661",
+        "name": "",
+        "env": [
+            {
+                "name": "weather_source",
+                "value": "open",
+                "type": "str"
+            },
+            {
+                "name": "weather",
+                "value": "bbc",
+                "type": "str"
+            },
+            {
+                "name": "provider",
+                "value": "open",
+                "type": "str"
+            }
+        ],
+        "x": 450,
+        "y": 160,
+        "wires": [
+            [
+                "6430f1e8.64e88"
+            ]
+        ]
+    },
+    {
+        "id": "b017deef.95f35",
+        "type": "subflow:85a7c8c0.632298",
+        "z": "ded4818b.09661",
+        "name": "",
+        "env": [
+            {
+                "name": "test",
+                "value": "jinou_l_group",
+                "type": "env"
+            }
+        ],
+        "x": 80,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "727993a0.8c71ec",
         "type": "function",
-        "z": "b148fd36.4b73f",
-        "name": "Parse",
-        "func": "var raw = msg.payload.rss.channel[0].item[0].description[0].split(', ');\n\nvar data = {};\nvar keys = {\n    \"Temperature\"       :['tmp',function(val){return parseInt(val)}],\n    \"Wind Direction\"    :['wind_dir',function(val){return val}],\n    \"Wind Speed\"        :['wind_speed',function(val){return parseInt(val)}],\n    \"Humidity\"          :['hum',function(val){return parseInt(val)}],\n    \"Pressure\"          :['pressure',function(val){return parseInt(val)}],\n    \"Visibility\"        :['visibility',function(val){return val}]\n}\n\nfor(var i in raw){\n    var bits = raw[i].split(': ');\n    var key = keys[bits[0]];\n    if(bits.length == 2) data[key[0]] = key[1](bits[1]);\n}\n\nmsg.payload = data;\nreturn msg;\n\n/*\n\"Temperature: 14°C (57°F), Wind Direction: South South Westerly, Wind Speed: 34mph, Humidity: 82%, Pressure: 987mb, Falling, Visibility: --\"\n{\n    \"Temperature\":\"14°C (57°F)\",\n    \"Wind Direction\":\"South South Westerly\",\n    \"Wind Speed\":\"34mph\",\n    \"Humidity\":\"82%\",\n    \"Pressure\":\"987mb\",\n    \"Visibility\":\"--\"\n}\n\n*/",
+        "z": "ded4818b.09661",
+        "d": true,
+        "name": "",
+        "func": "//node.warn('xxx'+env.get('jinou_temp_max'));\n\nreturn null\nfor(var i in global.keys()){\n    var key = global.keys()[i];\n    var val = global.get(key);\n    node.warn(`${key} = ${val}`);  \n}",
         "outputs": 1,
         "noerr": 0,
-        "x": 670,
-        "y": 160,
+        "x": 430,
+        "y": 80,
         "wires": [
-            [
-                "6de311b8.f4ef8"
-            ]
+            []
         ]
     },
     {
-        "id": "6de311b8.f4ef8",
-        "type": "debug",
-        "z": "b148fd36.4b73f",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 830,
-        "y": 160,
-        "wires": []
-    },
-    {
-        "id": "fb896e36.e63c8",
-        "type": "function",
-        "z": "b148fd36.4b73f",
-        "d": true,
-        "name": "Spryng",
-        "func": "var token = \"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjQyZGIyNWM1NDc4YTdjNTkzM2Q1MGU0MzAzY2YzYzhlMTM1ZTdkNzA5NGM3YTFjMjllNzU4MTM1ZTllYTE1MGRkMTQ1NWE1NzU5YmNkOWRjIn0.eyJhdWQiOiIzIiwianRpIjoiNDJkYjI1YzU0NzhhN2M1OTMzZDUwZTQzMDNjZjNjOGUxMzVlN2Q3MDk0YzdhMWMyOWU3NTgxMzVlOWVhMTUwZGQxNDU1YTU3NTliY2Q5ZGMiLCJpYXQiOjE1ODE5MTczNTEsIm5iZiI6MTU4MTkxNzM1MSwiZXhwIjo0NzM3NTkwOTUxLCJzdWIiOiI2MzQ3MiIsInNjb3BlcyI6W119.hhsLp_vapaa6mSddSevacYbmHfHSGgVuL5dAaJt7B7HTzWfHxOmo7NCsapOr7AHmicaH0M-rCrfNrQS_QyeOQKVx3To1P3-uzhQVjfBcQ00qfxk-PR1lN4EkWm6dCpIMo0VkF0ZcskJfpDh-RiJoyXzFnjfixhrzA7XbPwauGqjqDTMzCyIimr61V85muf42myEjHps1YBT-0YCb4cp4X7EvdP6uehG1maw_V4vLj3IUYCVDdeC_r_k8dwC2kuedhqanJIU9n9DgpjQ2G5pg5ZRNJl2puuRjkSNFwmk6MLKWKm9PfJCbXMiyZz6IrXG4bBvYQFzPGksyTIs9gmCGgL9LXBPVUa3HCzYNwo7U_k8At3-LzHgMq4QOKcYPM2hh8ogZjWV301kRR-mBoI89JC1o2GsO32kmL9r2ZTliBNEPEhTE6KzptePy7L5-VYQqlcbU8pl_w1LT2_sm6ipXOT3UuGyOC3f3uBFEcsrZ6HPJNGuE8odvb7gMVzx-59ja-oq863eJihO5OFpA9U3V_K80u8riU5CmqGkPqQKITTywOnCfmmyYOAbQmxqBgozkmGBslIJevj0dIa8fWqdNio8pDUeWmYL61A6qEjinbA4ybIAEYA5rIYimlWt_ceGRipjLqlbH6_4yQtLRyNM-IK5zdB8JnW2aB8UqHSqRj8o\"\n\nvar https = require('follow-redirects').https;\nvar fs = require('fs');\n\nvar options = {\n  'method': 'POST',\n  'hostname': 'rest.spryngsms.com',\n  'path': '/v1/messages',\n  'headers': {\n    'Accept': 'application/json',\n    'Authorization': `Bearer ${token}`,\n    'Content-Type': 'application/json'\n  },\n  'maxRedirects': 20\n};\n\nvar req = https.request(options, function (res) {\n  var chunks = [];\n\n  res.on(\"data\", function (chunk) {\n    chunks.push(chunk);\n  });\n\n  res.on(\"end\", function (chunk) {\n    var body = Buffer.concat(chunks);\n    node.warn(body.toString());\n  });\n\n  res.on(\"error\", function (error) {\n    node.warn(error);\n  });\n});\n\nvar postData = JSON.stringify({\"body\":\"This is a test message.\",\"encoding\":\"unicode\",\"originator\":\"DocsTest\",\"recipients\":[\"31612345678\"],\"route\":\"business\",\"scheduled_at\":\"2019-01-01T15:00:00+00:00\"});\n\nreq.write(postData);\n\nreq.end();",
-        "outputs": 0,
-        "noerr": 0,
-        "x": 300,
-        "y": 80,
-        "wires": []
-    },
-    {
-        "id": "1a81b159.6519bf",
+        "id": "1e5a34c6.022b2b",
         "type": "inject",
-        "z": "b148fd36.4b73f",
-        "name": "",
-        "topic": "",
+        "z": "ded4818b.09661",
+        "name": "Backup",
+        "topic": "backup",
         "payload": "",
         "payloadType": "str",
         "repeat": "",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 110,
-        "y": 80,
+        "x": 450,
+        "y": 320,
         "wires": [
             [
-                "fb896e36.e63c8",
-                "82d90613.7130c8"
+                "6430f1e8.64e88"
             ]
         ]
     },
     {
-        "id": "82d90613.7130c8",
-        "type": "function",
-        "z": "b148fd36.4b73f",
-        "name": "",
-        "func": "var myHeaders = [];\nmyHeaders.push(\"Accept\", \"application/json\");\nmyHeaders.push(\"Authorization\", `Bearer ${env.get('spryng_token')}`);\nmyHeaders.push(\"Content-Type\", \"application/json\");\n\nvar raw = JSON.stringify({\"body\":\"This is a test message.\",\"encoding\":\"unicode\",\"originator\":\"DocsTest\",\"recipients\":[\"31612345678\"],\"route\":\"business\",\"scheduled_at\":\"2019-01-01T15:00:00+00:00\"});\n\nvar requestOptions = {\n  method: 'POST',\n  headers: myHeaders,\n  body: raw,\n  redirect: 'follow'\n};\n\nfetch(\"https://rest.spryngsms.com/v1/messages\", requestOptions)\n  .then(response => response.text())\n  .then(result => console.log(result))\n  .catch(error => console.log('error', error));\n  \n  ",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 300,
-        "y": 120,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "f9e838f5.7f63f8",
+        "id": "b56379a8.fb1788",
         "type": "ui_group",
         "z": "",
-        "name": "Default",
-        "tab": "bb1c6f82.3b7fb",
-        "disp": true,
-        "width": "6",
-        "collapse": false
-    },
-    {
-        "id": "bb1c6f82.3b7fb",
-        "type": "ui_tab",
-        "z": "",
-        "d": true,
-        "name": "Tests",
-        "icon": "dashboard",
+        "name": "${jinou_c_group}",
+        "tab": "c30b3430.436528",
         "order": 2,
-        "disabled": false,
-        "hidden": false
+        "disp": true,
+        "width": "15",
+        "collapse": false
     }
 ]
