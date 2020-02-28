@@ -3,7 +3,7 @@
 // content of index.js
 const request = require('request');
 const http = require('http');
-const port = 3000
+const port = process.env.PORT || 3000;
 const childProcess = require('child_process');
 const cl = console.log;
 const jin = require('./jinou_aa20.js');
@@ -22,12 +22,13 @@ const requestHandler = (req, res) => {
   }
   
   // ::ffff:192.168.0.130
-  cl(req.ip,req.url,req.method);
-
-  this.address = '*';  
-
-  if(this.address == '' || this.address == '*') var data = jin.alive;
-  else data = jin.alive[this.address] || {};
+  // cl(req.ip,req.url,req.method);
+  
+  var address = '*';
+  var bits = req.url.split('/');
+  if(bits.length == 2) address = bits[1];
+  if(address == '' || address == '*') var data = jin.alive;
+  else data = jin.alive[address] || {};
   data.name = this.name;
   res.end(JSON.stringify(data));
   

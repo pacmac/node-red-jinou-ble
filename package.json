@@ -1,6 +1,6 @@
 {
   "name": "node-red-jinou-ble",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Jinou BLE Sensor Beacon",
   "main": "index.html",
   
@@ -19,7 +19,8 @@
   },
   
   "dependencies": {
-    "@abandonware/noble": "*"
+    "@abandonware/noble": "*",
+    "request": "*"
   },
 
   "repository": {

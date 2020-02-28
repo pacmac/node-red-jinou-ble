@@ -4,8 +4,9 @@
     category: 'devices',
     color: '#a6bbcf',
     defaults: {
-      name: {value:""},
-      address: {value:""}
+      name    : {value:""},
+      address : {value:""},
+      server  : {value:""}
     },
     inputs:1,
     outputs:1,
@@ -26,6 +27,11 @@
   <div class="form-row">
     <label for="node-input-address"><i class="icon-tag"></i> Address</label>
     <input type="text" id="node-input-address" placeholder="address">
+  </div>
+
+  <div class="form-row">
+    <label for="node-input-server"><i class="icon-tag"></i> HTTP Server</label>
+    <input type="text" id="node-input-server" placeholder="http://localhost:80">
   </div>
 
 </script>
