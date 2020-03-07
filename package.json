@@ -1,6 +1,6 @@
 {
   "name": "node-red-jinou-ble",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Jinou BLE Sensor Beacon",
   "main": "index.html",
   
