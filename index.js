@@ -2,17 +2,16 @@ module.exports = function(RED) {
 
   const url       = require('url');
   const request   = require('request');
-  const jin       = require('./jinou_aa20.js');
+  var jin         = require('./jinou_aa20.js');
   const cl        = console.log;
   
   function jinouMain(config) {
     RED.nodes.createNode(this,config);
-    this.address = config.address;
-    this.server = config.server;
+    this.config = config;
     var node = this;
     
     function get(cb=cl){
-      var host = new URL(node.server);
+      var host = new URL(node.config.server);
       request({
         json      : true,
         url       : host,
@@ -29,11 +28,11 @@ module.exports = function(RED) {
 
       function go(idata,src){
         
-        if(node.address == '' || node.address == '*') var odata = idata;
-        else odata = idata[node.address] || {};
+        if(node.config.address == '' || node.config.address == '*') var odata = idata;
+        else odata = idata[node.config.address] || {};
         odata.name = node.name;
         
-        //cl(`go(${src})`,odata);
+        if(msg.debug) cl(`go(${src})`,odata);
         
         node.send({
           payload : odata,
@@ -42,9 +41,13 @@ module.exports = function(RED) {
         });
       }
       
-      if(node.server) get(function(data){
-        if(!data.error) {
-          go(data.data,'http');
+      if(node.config.server) get(function(data){
+        if(!data.error && data.data) {
+          // cache http data locally.
+          if(node.config.cache){
+            jin.alive = Object.assign(jin.alive,data.data);
+            go(jin.alive,'http-cache');
+          } else go(data.data,'http-live');
         }
         else cl(data);
       });
@@ -57,3 +60,4 @@ module.exports = function(RED) {
   
   RED.nodes.registerType("jinou-ble",jinouMain);
 }
+
