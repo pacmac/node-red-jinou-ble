@@ -43,6 +43,19 @@ module.exports = function(RED) {
       
       if(node.config.server) get(function(data){
         if(!data.error && data.data) {
+          
+          // Single device - age in msecs
+          if(('temp' in data.data)) {
+            if(('age' in data.data)) data.data.stamp = (new Date().getTime() - data.data.age);   
+          }
+          
+          // multiple devices - age in msecs
+          else {
+            for(var mac in data.data){
+              if(('age' in data.data[mac])) data.data[mac].stamp = (new Date().getTime() - data.data[mac].age);  
+            }
+          }
+
           // cache http data locally.
           if(node.config.cache){
             jin.alive = Object.assign(jin.alive,data.data);
