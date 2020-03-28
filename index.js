@@ -13,6 +13,9 @@ module.exports = function(RED) {
     function get(cb=cl){
       var host = new URL(node.config.server);
       request({
+        headers   : {
+          'Content-Type': 'application/json'
+        },
         json      : true,
         url       : host,
         method    : 'get',
