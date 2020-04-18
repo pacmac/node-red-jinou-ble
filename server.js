@@ -26,11 +26,31 @@ const requestHandler = (req, res) => {
   // ::ffff:192.168.0.130
   // cl(req.ip,req.url,req.method);
   
+  var freq;
   var address = '*';
   var bits = req.url.split('/');
-  if(bits.length == 2) address = bits[1];
+  
+  // Update Device Frequency Request
+  if(bits.length == 3){
+    address = bits[1];
+    freq = parseInt(bits[2]) || 100;
+    return jin.setfreq(address,freq,function(nval){
+      res.end(JSON.stringify({
+        mac   : address,
+        value : nval
+      }));
+      cl(`Freq Update:${address} request:${freq} return:${nval}`);  
+    })
+  }
+  
+  else if(bits.length == 2) address = bits[1];
+  
+  // get data for all devices
   if(address == '' || address == '*') var data = jin.alive;
+  
+  // get data for single device address
   else data = jin.alive[address] || {};
+  
   data.name = this.name;
   res.end(JSON.stringify(data));
   
@@ -42,5 +62,5 @@ server.listen(port, (err) => {
     return console.log('something bad happened', err)
   }
 
-  console.log(`server is listening on ${port}`)
+  cl(`server is listening on ${port}`)
 })
