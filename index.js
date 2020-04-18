@@ -35,7 +35,10 @@ module.exports = function(RED) {
         else odata = idata[node.config.address] || {};
         odata.name = node.name;
         
-        if(msg.debug) cl(`go(${src})`,odata);
+        if(msg.debug) {
+          jin.dbug = true;
+          cl(`go(${src})`,odata);
+        }
         
         node.send({
           payload : odata,
