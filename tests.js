@@ -1,4 +1,5 @@
 
+var _repeat = true;
 var _per;
 const dbug = true;
 const cl = console.log;
@@ -59,14 +60,24 @@ noble.on('stateChange', (state) => {
   if (state === 'poweredOn') {
     cl('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
     cl('Start scanning for JINOU AA20 devices.');
-    noble.startScanning(['aa20'], true);
+    noble.startScanning(['aa20'], _repeat);
   }
 });
 
 noble.on('discover', function(per) {
+
+  _repeat = false;
+  //noble.stopScanning();
+  rd(per,function(val){
+    per.disconnect(function(err){
+      cl(val);
+      //noble.startScanning(['aa20'], _repeat);
+      // process.exit();
+    });
+  });
   
-  return cl(per.address,new Date());
-  
+  return;
+  //return cl(per.address,new Date());
   
   var mac = per.address;
   if(mac == 'c5:ac:70:b4:d1:20'){

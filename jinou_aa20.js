@@ -1,11 +1,20 @@
 module.exports = {
   
-  knowns: {},
+  dbug    : false,
   
-  alive   : {}
+  /* connect  */
+  address : null,
+  perip   : null,
+  setval  : null,
+  
+  knowns  : {},
+  alive   : {},
+  repeat  : true,
+  disco   : true,
   
 }
 
+const mex = module.exports;
 const cl = console.log;
 const noble = require('@abandonware/noble');
 
@@ -67,32 +76,112 @@ function readMfgData(peripheral) {
   }
 }
 
+function getchars(per,cb){
+  if(mex.dbug) cl('getchars()',per.state);
+  per.connect(function(error) {
+  	if(mex.dbug) cl('connecting..',per.state);
+  	per.discoverServices(['aa20'], function(error, services) {
+  		if(mex.dbug) cl('services..',per.state);
+  		var devsvc = services[0];
+  		devsvc.discoverCharacteristics(['aa23'], function(error, chrs) {
+        if(mex.dbug) cl('chars..',per.state);
+        return cb(chrs);
+  		})
+  	})
+  })  
+}
+
+function rd(per,cb){
+  getchars(per,function(chrs){
+    chrs[0].read(function(error, data) {
+      var buffer = Buffer.from(data)
+      var arr = Array.prototype.slice.call(buffer, 0);
+      cb(arr[0] || false);
+    });      
+  })
+}
+
+function wr(per,val,cb){
+  getchars(per,function(chrs){
+    var buf = Buffer.allocUnsafe(1);
+    buf.writeUInt8(val);
+    chrs[0].write(buf,false,function(err){
+      return cb(err);
+    });    
+  })
+}
+
+mex.setfreq = async function(mac,val,cb){
+
+  function until() {
+    const poll = resolve => {
+      if(!mex.address) resolve();
+      else setTimeout(_ => poll(resolve), 200);
+    }
+  
+    return new Promise(poll);
+  }
+
+  module.exports.address = mac;
+  module.exports.setval = val;
+  await until(_ => flag == true);
+  cb(mex.setval);
+}
+
+mex.test = function(mac='c5:ac:70:b4:d1:20'){
+  cl('updating update frequency...')
+  ival = 150;
+  mex.setfreq(mac,ival,function(oval){
+    cl('values:',ival,oval);  
+  })
+}
+
 noble.on('stateChange', (state) => {
   console.log('Noble adapter is %s', state);
-
   if (state === 'poweredOn') {
     cl('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
     cl('Start scanning for JINOU AA20 devices.');
-    noble.startScanning(['aa20'], true);
+    noble.startScanning(['aa20'],mex.repeat);
   }
 });
 
 process.on('SIGINT', function() {
  cl("Caught interrupt signal");
-  noble.stopScanning()
+  noble.stopScanning();
   process.exit();
 });
 
 
 noble.on('discover', function(per) {
   var dev = readMfgData(per);
-  //cl(dev);
   if(dev.mac){
-    if(!module.exports.knowns[dev.mac]){
+    
+    if(mex.dbug) cl(per.address);
+    
+    // set update frequency 1-255
+    if(mex.address && mex.address == per.address && mex.setval) {
+      noble.on('scanStop',function(err){
+        wr(per,mex.setval,function(ok){
+          rd(per,function(val){
+            if(mex.dbug) cl('value:',val);
+            per.disconnect(function(err){
+              module.exports.address = null;
+              module.exports.setval = val;
+              noble.startScanning(['aa20'],mex.repeat);
+              if(mex.dbug) cl('done');
+            });
+          })
+        });         
+      })
+      
+      return noble.stopScanning();  
+    }
+    
+    else if(!module.exports.knowns[dev.mac]){
       module.exports.knowns[dev.mac] = {
         first: dev
       };
-      cl('Found New AA20 device:',dev.mac); 
+      if(mex.dbug) cl('Found New AA20 device:',dev.mac); 
     } 
     module.exports.alive[dev.mac] = dev;
     module.exports.knowns[dev.mac].last = dev;
