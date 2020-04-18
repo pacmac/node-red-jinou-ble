@@ -2,15 +2,13 @@ module.exports = {
   
   dbug    : false,
   
-  /* connect  */
+  /* setval()  */
   address : null,
-  perip   : null,
   setval  : null,
   
   knowns  : {},
   alive   : {},
-  repeat  : true,
-  disco   : true,
+  repeat  : true
   
 }
 
@@ -158,15 +156,15 @@ noble.on('discover', function(per) {
     
     if(mex.dbug) cl(per.address);
     
-    // set update frequency 1-255
-    if(mex.address && mex.address == per.address && mex.setval) {
+    // set AA23 update frequency 1-255
+    if(mex.address && mex.address == per.address && mex.setval > 0) {
       noble.on('scanStop',function(err){
         wr(per,mex.setval,function(ok){
           rd(per,function(val){
             if(mex.dbug) cl('value:',val);
             per.disconnect(function(err){
               module.exports.address = null;
-              module.exports.setval = val;
+              module.exports.setval = val; // set to read-value.
               noble.startScanning(['aa20'],mex.repeat);
               if(mex.dbug) cl('done');
             });

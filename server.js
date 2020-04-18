@@ -8,6 +8,8 @@ const childProcess = require('child_process');
 const cl = console.log;
 const jin = require('./jinou_aa20.js');
 
+jin.dbug = true;
+
 const requestHandler = (req, res) => {
   req.ip = req.connection.remoteAddress.replace('::ffff:','')
   
