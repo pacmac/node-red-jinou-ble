@@ -8,7 +8,8 @@ module.exports = {
   
   knowns  : {},
   alive   : {},
-  repeat  : true
+  repeat  : true,
+  mode    : null
   
 }
 
@@ -74,14 +75,14 @@ function readMfgData(peripheral) {
   }
 }
 
-function getchars(per,cb){
+function getchars(per,cid,cb){
   if(mex.dbug) cl('getchars()',per.state);
   per.connect(function(error) {
   	if(mex.dbug) cl('connecting..',per.state);
   	per.discoverServices(['aa20'], function(error, services) {
   		if(mex.dbug) cl('services..',per.state);
   		var devsvc = services[0];
-  		devsvc.discoverCharacteristics(['aa23'], function(error, chrs) {
+  		devsvc.discoverCharacteristics([cid], function(error, chrs) {
         if(mex.dbug) cl('chars..',per.state);
         return cb(chrs);
   		})
@@ -89,8 +90,9 @@ function getchars(per,cb){
   })  
 }
 
-function rd(per,cb){
-  getchars(per,function(chrs){
+// read a char value
+function rd(per,cid,cb){
+  getchars(per,cid,function(chrs){
     chrs[0].read(function(error, data) {
       var buffer = Buffer.from(data)
       var arr = Array.prototype.slice.call(buffer, 0);
@@ -99,8 +101,9 @@ function rd(per,cb){
   })
 }
 
-function wr(per,val,cb){
-  getchars(per,function(chrs){
+// write a char value.
+function wr(per,cid,val,cb){
+  getchars(per,cid,function(chrs){
     var buf = Buffer.allocUnsafe(1);
     buf.writeUInt8(val);
     chrs[0].write(buf,false,function(err){
@@ -153,14 +156,14 @@ process.on('SIGINT', function() {
 noble.on('discover', function(per) {
   var dev = readMfgData(per);
   if(dev.mac){
-    
+    var cid = 'aa23'; // update-itnterval
     if(mex.dbug) cl(per.address);
     
     // set AA23 update frequency 1-255
     if(mex.address && mex.address == per.address && mex.setval > 0) {
       noble.on('scanStop',function(err){
-        wr(per,mex.setval,function(ok){
-          rd(per,function(val){
+        wr(per,cid,mex.setval,function(ok){
+          rd(per,cid,function(val){
             if(mex.dbug) cl('value:',val);
             per.disconnect(function(err){
               module.exports.address = null;
