@@ -1,40 +1,68 @@
 <script type="text/javascript">
 
   RED.nodes.registerType('jinou-ble',{
-    category: 'devices',
-    color: '#a6bbcf',
-    defaults: {
+    category  : 'devices',
+    color     : '#a6bbcf',
+    defaults  : {
+      argsrc  : {value:"payload"},
       name    : {value:""},
-      address : {value:""},
+      mac     : {value:""},
       server  : {value:""},
       cache   : {value:"1"}
     },
-    inputs:1,
-    outputs:1,
-    icon: "font-awesome/fa-thermometer-full",
-    label: function() {
+    inputs    : 1,
+    outputs   : 1,
+    icon      : "font-awesome/fa-thermometer-full",
+    label     : function() {
       return this.name||"jinou-ble";
+    },
+    
+    oneditprepare: function() {
+      $("#node-input-argsrc").change(function() {
+        var val = $("#node-input-argsrc").val();
+        //console.log('xxxx',val);
+        if(val == "payload") {
+          $("#node-input-name-row").hide();
+          $("#node-input-mac-row").hide();
+          $("#node-input-server-row").hide();
+        } else {
+          $("#node-input-name-row").show();
+          $("#node-input-mac-row").show();
+          $("#node-input-server-row").show();
+        }
+      });
+      
+      $("#node-input-argsrc").change();
     }
   });
 
 </script>
 
 <script type="text/html" data-template-name="jinou-ble">
+
   <div class="form-row">
+      <label for="node-input-argsrc">Arg Source</label>
+      <select id="node-input-argsrc">
+        <option value="payload">Use msg.payload</option>
+        <option value="fixed">Use static</option>
+      </select>
+  </div>
+
+  <div id="node-input-name-row" class="form-row">
     <label for="node-input-name"><i class="icon-tag"></i> Name</label>
     <input type="text" id="node-input-name" placeholder="Name">
   </div>
 
-  <div class="form-row">
-    <label for="node-input-address"><i class="icon-tag"></i> Address</label>
-    <input type="text" id="node-input-address" placeholder="address">
+  <div id="node-input-mac-row" class="form-row">
+    <label for="node-input-mac"><i class="icon-tag"></i> Mac Address</label>
+    <input type="text" id="node-input-mac" placeholder="mac">
   </div>
 
-  <fieldset>
+  <fieldset id="node-input-server-row">
     <legend>Remote Server</legend>
     <div class="form-row">
       <label for="node-input-server"><i class="icon-tag"></i> HTTP Host</label>
-      <input type="text" id="node-input-server" placeholder="http://localhost:80">
+      <input type="text" id="node-input-server" placeholder="http://localhost:3000">
     </div>
   
     <div class="form-row">

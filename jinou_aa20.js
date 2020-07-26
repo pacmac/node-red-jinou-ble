@@ -1,6 +1,6 @@
 module.exports = {
   
-  dbug    : false,
+  dbug    : true,
   
   /* setval()  */
   address : null,
@@ -8,8 +8,7 @@ module.exports = {
   
   knowns  : {},
   alive   : {},
-  repeat  : true,
-  mode    : null
+  repeat  : true
   
 }
 
@@ -75,14 +74,14 @@ function readMfgData(peripheral) {
   }
 }
 
-function getchars(per,cid,cb){
+function getchars(per,cb){
   if(mex.dbug) cl('getchars()',per.state);
   per.connect(function(error) {
   	if(mex.dbug) cl('connecting..',per.state);
   	per.discoverServices(['aa20'], function(error, services) {
   		if(mex.dbug) cl('services..',per.state);
   		var devsvc = services[0];
-  		devsvc.discoverCharacteristics([cid], function(error, chrs) {
+  		devsvc.discoverCharacteristics(['aa23'], function(error, chrs) {
         if(mex.dbug) cl('chars..',per.state);
         return cb(chrs);
   		})
@@ -90,9 +89,17 @@ function getchars(per,cid,cb){
   })  
 }
 
-// read a char value
-function rd(per,cid,cb){
-  getchars(per,cid,function(chrs){
+function until(val) {
+  const poll = resolve => {
+    if(val) resolve();
+    else setTimeout(resolve,200)
+  }
+
+  return new Promise(poll);
+}
+
+function rd(per,cb){
+  getchars(per,function(chrs){
     chrs[0].read(function(error, data) {
       var buffer = Buffer.from(data)
       var arr = Array.prototype.slice.call(buffer, 0);
@@ -101,9 +108,8 @@ function rd(per,cid,cb){
   })
 }
 
-// write a char value.
-function wr(per,cid,val,cb){
-  getchars(per,cid,function(chrs){
+function wr(per,val,cb){
+  getchars(per,function(chrs){
     var buf = Buffer.allocUnsafe(1);
     buf.writeUInt8(val);
     chrs[0].write(buf,false,function(err){
@@ -112,29 +118,19 @@ function wr(per,cid,val,cb){
   })
 }
 
-mex.setfreq = async function(mac,val,cb){
-
-  function until() {
-    const poll = resolve => {
-      if(!mex.address) resolve();
-      else setTimeout(_ => poll(resolve), 200);
-    }
-  
-    return new Promise(poll);
-  }
-
+mex.setfreq = async function(cb,mac,val){
   module.exports.address = mac;
   module.exports.setval = val;
-  await until(_ => flag == true);
+  await until(!mex.address);
   cb(mex.setval);
 }
 
-mex.test = function(mac='c5:ac:70:b4:d1:20'){
+mex.test = function(mac='c5:ac:70:b4:d1:20',ival){
   cl('updating update frequency...')
-  ival = 150;
-  mex.setfreq(mac,ival,function(oval){
-    cl('values:',ival,oval);  
-  })
+  mex.setfreq(function(oval){
+    cl('values:',ival,oval);
+    process.exit();  
+  },mac,ival)
 }
 
 noble.on('stateChange', (state) => {
@@ -152,29 +148,55 @@ process.on('SIGINT', function() {
   process.exit();
 });
 
+function discon(per,cb){
+  per.disconnect(function(err){
+    clear();
+    setTimeout(function(){
+      noble.startScanning(['aa20'],mex.repeat);
+    });
+    if(mex.dbug) cl('done');
+    if(cb) cb();
+  });
+}
+
+function clear(){
+  module.exports.address  = null;
+  module.exports.setval   = val; // set to read-value.
+}
+
+function wrrd(per,cid,val,cb){
+  wr(per,cid,val,function(ok){
+    rd(per,cid,function(val){
+      if(mex.dbug) cl('value:',val);
+      if(cb) cb(val);
+    })
+  });   
+}
 
 noble.on('discover', function(per) {
   var dev = readMfgData(per);
   if(dev.mac){
-    var cid = 'aa23'; // update-itnterval
-    if(mex.dbug) cl(per.address);
     
-    // set AA23 update frequency 1-255
-    if(mex.address && mex.address == per.address && mex.setval > 0) {
-      noble.on('scanStop',function(err){
-        wr(per,cid,mex.setval,function(ok){
-          rd(per,cid,function(val){
-            if(mex.dbug) cl('value:',val);
-            per.disconnect(function(err){
-              module.exports.address = null;
-              module.exports.setval = val; // set to read-value.
-              noble.startScanning(['aa20'],mex.repeat);
-              if(mex.dbug) cl('done');
-            });
-          })
-        });         
+    if(mex.dbug) cl(per.address);
+
+    noble.on('scanStop',function(err){
+      cl('stop');
+      if(!module.exports.address) return;
+      if(mex.setval) wrrd(per,mex.setval,function(ok){
+        discon();
       })
       
+      else rd(per,cid,function(val){
+        if(mex.dbug) cl('read-value:',val);
+        if(cb) cb(val);
+        discon();
+      })
+             
+    })
+
+    // set AA23 update frequency 1-255
+    if(mex.address && mex.address == per.address) {
+      cl('read-write',per.address);
       return noble.stopScanning();  
     }
     
@@ -184,8 +206,8 @@ noble.on('discover', function(per) {
       };
       if(mex.dbug) cl('Found New AA20 device:',dev.mac); 
     } 
+    
     module.exports.alive[dev.mac] = dev;
     module.exports.knowns[dev.mac].last = dev;
   }
 });
-
