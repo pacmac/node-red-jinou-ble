@@ -33,13 +33,15 @@ module.exports = function(RED) {
       if(node.config.argsrc == 'payload') {
         var name    = msg.payload.name;
         var mac     = msg.payload.mac || msg.payload.mac;
-        var server  = msg.payload.server || null;
-        var cache   = msg.payload.cache || null; 
-      } else {
-        name    = node.config.name;
-        mac = node.config.mac;
-        server  = node.config.server || null;
-        cache   = node.config.cache || null;         
+        var server  = msg.payload.http_host || null;
+        var cache   = msg.payload.http_cache || null; 
+      } 
+      
+      else {
+        name        = node.config.name;
+        mac         = node.config.mac;
+        server      = node.config.http_host || null;
+        cache       = node.config.http_cache || null;         
       }
     
       if(msg.debug) cl(`name:${name},mac:${mac},server:${server},cache:${cache}`)

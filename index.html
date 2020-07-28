@@ -1,14 +1,14 @@
 <script type="text/javascript">
 
   RED.nodes.registerType('jinou-ble',{
-    category  : 'devices',
-    color     : '#a6bbcf',
-    defaults  : {
-      argsrc  : {value:"payload"},
-      name    : {value:""},
-      mac     : {value:""},
-      server  : {value:""},
-      cache   : {value:"1"}
+    category      : 'devices',
+    color         : '#a6bbcf',
+    defaults      : {
+      argsrc      : {value:"payload"},
+      name        : {value:""},
+      mac         : {value:""},
+      http_host   : {value:""},
+      http_cache  : {value:""}
     },
     inputs    : 1,
     outputs   : 1,
@@ -24,11 +24,11 @@
         if(val == "payload") {
           $("#node-input-name-row").hide();
           $("#node-input-mac-row").hide();
-          $("#node-input-server-row").hide();
+          $("#node-input-http_host-row").hide();
         } else {
           $("#node-input-name-row").show();
           $("#node-input-mac-row").show();
-          $("#node-input-server-row").show();
+          $("#node-input-http_host-row").show();
         }
       });
       
@@ -58,16 +58,16 @@
     <input type="text" id="node-input-mac" placeholder="mac">
   </div>
 
-  <fieldset id="node-input-server-row">
+  <fieldset id="node-input-http_host-row">
     <legend>Remote Server</legend>
     <div class="form-row">
-      <label for="node-input-server"><i class="icon-tag"></i> HTTP Host</label>
-      <input type="text" id="node-input-server" placeholder="http://localhost:3000">
+      <label for="node-input-http_host"><i class="icon-tag"></i> HTTP Host</label>
+      <input type="text" id="node-input-http_host" placeholder="http://localhost:3000">
     </div>
   
     <div class="form-row">
-      <label for="node-input-cache"><i class="icon-tag"></i> HTTP Cache</label>
-      <select id="node-input-cache">
+      <label for="node-input-http_cache"><i class="icon-tag"></i> HTTP Cache</label>
+      <select id="node-input-http_cache">
         <option value="1">YES</option>
         <option value="">NO</option> 
       </select>
